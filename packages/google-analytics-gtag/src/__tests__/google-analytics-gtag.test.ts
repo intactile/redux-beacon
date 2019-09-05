@@ -21,6 +21,14 @@ it('configures the Google Analytics property with the tracking ID', () => {
   });
 });
 
+it('configures the Google Analytics property with the options', () => {
+  GoogleAnalyticsGtag('GA_TRACKING_ID', { anonymize_ip: true });
+  expect(window.gtag).toHaveBeenCalledWith('config', 'GA_TRACKING_ID', {
+    anonymize_ip: true,
+    send_page_view: false,
+  });
+});
+
 describe('Page Tracking', () => {
   test('given { type: "page" }', () => {
     const events = [{ type: 'page' }];

@@ -2,7 +2,10 @@ import { Target } from 'redux-beacon';
 
 declare let gtag: any;
 
-function GoogleAnalyticsGtag(defaultTrackingId: string): Target {
+function GoogleAnalyticsGtag(
+  defaultTrackingId: string,
+  gtagOptions: object = {}
+): Target {
   if (typeof window === 'undefined') {
     return () => {};
   }
@@ -17,7 +20,7 @@ function GoogleAnalyticsGtag(defaultTrackingId: string): Target {
     return () => {};
   }
 
-  gtag('config', defaultTrackingId, { send_page_view: false });
+  gtag('config', defaultTrackingId, { ...gtagOptions, send_page_view: false });
 
   return function target(events) {
     const pageTracking = events.filter(event => event.type === 'page');
