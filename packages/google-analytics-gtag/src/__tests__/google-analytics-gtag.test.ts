@@ -59,6 +59,28 @@ describe('Page Tracking', () => {
     });
   });
 
+  test('given { type: "page", page_title, page_location, page_path, anonymize_ip }', () => {
+    const events = [
+      {
+        type: 'page',
+        page_title: 'page title',
+        page_location: 'page location',
+        page_path: 'page path',
+        anonymize_ip: true,
+      },
+    ];
+    const target = GoogleAnalyticsGtag('GA_TRACKING_ID');
+
+    target(events);
+
+    expect(window.gtag).toHaveBeenCalledWith('config', 'GA_TRACKING_ID', {
+      page_title: 'page title',
+      page_location: 'page location',
+      page_path: 'page path',
+      anonymize_ip: true,
+    });
+  });
+
   test('given { type: "page", trackingId: string }', () => {
     const events = [
       {
@@ -131,6 +153,7 @@ describe('Event Tracking', () => {
         event_action: 'login',
         event_label: 'article',
         value: 42,
+        anonymize_ip: true,
       },
     ];
     const target = GoogleAnalyticsGtag('GA_TRACKING_ID');
@@ -142,6 +165,7 @@ describe('Event Tracking', () => {
       event_action: 'login',
       event_label: 'article',
       value: 42,
+      anonymize_ip: true,
     });
   });
 });
